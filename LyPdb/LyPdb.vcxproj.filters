@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="include\ksocket\berkeley.c">
+      <Filter>include\ksocket</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ksocket\ksocket.c">
+      <Filter>include\ksocket</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ksocket\sockets.cpp">
+      <Filter>include\ksocket</Filter>
+    </ClCompile>
+    <ClCompile Include="include\kstl\alloc.cpp">
+      <Filter>include\kstl</Filter>
+    </ClCompile>
+    <ClCompile Include="include\kstl\msvcfill.cpp">
+      <Filter>include\kstl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\air14\FileStream.cpp">
+      <Filter>src\air14</Filter>
+    </ClCompile>
+    <ClCompile Include="src\air14\MsfReader.cpp">
+      <Filter>src\air14</Filter>
+    </ClCompile>
+    <ClCompile Include="src\air14\ScopedHandle.cpp">
+      <Filter>src\air14</Filter>
+    </ClCompile>
+    <ClCompile Include="src\air14\StreamReader.cpp">
+      <Filter>src\air14</Filter>
+    </ClCompile>
+    <ClCompile Include="src\air14\StructExtractor.cpp">
+      <Filter>src\air14</Filter>
+    </ClCompile>
+    <ClCompile Include="src\air14\SymbolExtractor.cpp">
+      <Filter>src\air14</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\moduler.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pdber.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\viewer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\ksocket\berkeley.h">
+      <Filter>include\ksocket</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ksocket\ksocket.h">
+      <Filter>include\ksocket</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ksocket\sockets.h">
+      <Filter>include\ksocket</Filter>
+    </ClInclude>
+    <ClInclude Include="include\kstl\alloc.h">
+      <Filter>include\kstl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\kstl\allocator.h">
+      <Filter>include\kstl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\kstl\jxy_allocator.h">
+      <Filter>include\kstl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\kstl\map.h">
+      <Filter>include\kstl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\kstl\memory.h">
+      <Filter>include\kstl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\kstl\string.h">
+      <Filter>include\kstl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\kstl\vector.h">
+      <Filter>include\kstl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\air14\FileStream.h">
+      <Filter>src\air14</Filter>
+    </ClInclude>
+    <ClInclude Include="src\air14\ModuleData.h">
+      <Filter>src\air14</Filter>
+    </ClInclude>
+    <ClInclude Include="src\air14\MsfReader.h">
+      <Filter>src\air14</Filter>
+    </ClInclude>
+    <ClInclude Include="src\air14\PdbStructs.h">
+      <Filter>src\air14</Filter>
+    </ClInclude>
+    <ClInclude Include="src\air14\ScopedHandle.h">
+      <Filter>src\air14</Filter>
+    </ClInclude>
+    <ClInclude Include="src\air14\StreamReader.h">
+      <Filter>src\air14</Filter>
+    </ClInclude>
+    <ClInclude Include="src\air14\StructExtractor.h">
+      <Filter>src\air14</Filter>
+    </ClInclude>
+    <ClInclude Include="src\air14\SymbolExtractor.h">
+      <Filter>src\air14</Filter>
+    </ClInclude>
+    <ClInclude Include="src\moduler.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pdber.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\viewer.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{b55b89a3-bdac-4dc4-85e0-5aff262888b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\ksocket">
+      <UniqueIdentifier>{31f3d8db-d011-4d7c-b1ab-9d2f30b2b556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\kstl">
+      <UniqueIdentifier>{fbb82c54-48ef-4cac-89ac-9ad51ce9dd4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{858b1ee9-dcdd-4840-895d-f76e97e48174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\air14">
+      <UniqueIdentifier>{5b908be0-7097-4ed6-9fc9-91d606e4ec64}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
