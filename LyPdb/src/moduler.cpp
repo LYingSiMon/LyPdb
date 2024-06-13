@@ -264,8 +264,10 @@ namespace oxygenPdb
 {
 	using ptr_t = UINT_PTR;
 
-	Moduler::Moduler(const wchar_t* moduleName):_moduleBase(0),_moduleSize(0)
+	Moduler::Moduler(const wchar_t* moduleName, bool isR3, bool isWow64):_moduleBase(0),_moduleSize(0)
 	{
+        // todo: 支持获取 dll 符号 
+
 		const auto [base, size] = findModule(moduleName);
 		do 
 		{

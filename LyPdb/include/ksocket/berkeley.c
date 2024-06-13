@@ -444,7 +444,10 @@ int getaddrinfo(const char* node, const char* service, const struct addrinfo* hi
   // Free the original result.
   //
 
-  KsFreeAddrInfo(Result);
+#if 0
+  // <bug> 这里 free，在低版本 windows 上会导致 res.ai_addr 出错
+  //KsFreeAddrInfo(Result);
+#endif
 
   if (!NT_SUCCESS(Status))
   {

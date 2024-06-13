@@ -20,7 +20,7 @@ namespace oxygenPdb
 	{
 		
 	public:
-		Pdber(const wchar_t* moduleName);
+		Pdber(const wchar_t* moduleName, bool isR3, bool IsWow64);
 		~Pdber();
 
 		bool init();
@@ -29,12 +29,12 @@ namespace oxygenPdb
 
 	private:
 		using ptr_t = UINT_PTR;
-		PdbViewer _pdbViewer;
-		Moduler _moduler;
-		char _pdbGuid[100];
-		wchar_t _pdbPath[MAX_PATH];
-		symbolic_access::SymbolsMap _symbols;
-		symbolic_access::StructsMap _structs;
+		PdbViewer pdbViewer;
+		Moduler moduler;
+		char pdbGuid[100];
+		wchar_t pdbPath[MAX_PATH];
+		symbolic_access::SymbolsMap symbols;
+		symbolic_access::StructsMap structs;
 		bool _initfailed;
 	};
 
@@ -43,17 +43,17 @@ namespace oxygenPdb
 		if (_initfailed) return 0;
 		std::string_view SymbolName(name);
 
-		const auto& iter = _symbols.find(SymbolName);
-		if (iter == _symbols.end())
+		const auto& iter = symbols.find(SymbolName);
+		if (iter == symbols.end())
 			return 0;
 
-		return (ULONG_PTR)(_moduler.getModuleBase() + iter->second);
+		return (ULONG_PTR)(moduler.getModuleBase() + iter->second);
 	}
 
 	size_t Pdber::GetOffset(const char* structName, const char* propertyName) {
 
-		const auto& structsIter = this->_structs.find(structName);
-		if (structsIter == _structs.end())
+		const auto& structsIter = this->structs.find(structName);
+		if (structsIter == structs.end())
 			return 0;
 
 		const auto& membersIter = std::find_if(structsIter->second.begin(), structsIter->second.end(),

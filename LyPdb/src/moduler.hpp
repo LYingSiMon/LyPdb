@@ -11,7 +11,7 @@ namespace oxygenPdb
 		using ptr_t = UINT_PTR;
 
 	public:
-		Moduler(const wchar_t* moduleName);
+		Moduler(const wchar_t* moduleName, bool isR3, bool isWow64);
 		~Moduler()=default;
 		std::pair<ptr_t, ULONG> getModuleInfo();
 		ptr_t constexpr getModuleBase() 

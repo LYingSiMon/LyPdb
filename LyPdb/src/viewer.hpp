@@ -18,6 +18,7 @@ namespace oxygenPdb
 		~PdbViewer() = default;
 		pdbInfo_t getPdbInfo(ptr_t mBase);
 		kstd::wstring downLoadPdb(pdbInfo_t& info);
+		VOID downLoadPdb(pdbInfo_t& info, PWCHAR path);
 
 	private:
 		bool isFileExits(kstd::string path);

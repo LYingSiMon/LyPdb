@@ -82,6 +82,8 @@ namespace oxygenPdb
 
 	kstd::wstring PdbViewer::downLoadPdb(pdbInfo_t& info)
 	{
+		// <bug> 此函数在低版本 windows 中，返回 wstring 后，栈空间释放，导致返回值为 0
+
 		NTSTATUS status = 0;
 		HANDLE hFile = 0;
 		wchar_t wPdbName[MAX_PATH] = { 0 };
@@ -138,7 +140,7 @@ namespace oxygenPdb
 		DbgPrintEx(0, 0, "[LyPdb][%s] download url:%s \n",__FUNCTION__,url.c_str());
 
 		// 6. 发送请求 1
-
+		
 		ksocket::init();
 		auto pdbSize=ksocket::getContentLength(url.c_str(), "88");
 		if (pdbSize == 0)
@@ -169,6 +171,99 @@ namespace oxygenPdb
 		
 		return sw_pdbFilePath;
 	}
+
+	VOID PdbViewer::downLoadPdb(pdbInfo_t& info, PWCHAR path)
+	{
+		NTSTATUS status = 0;
+		HANDLE hFile = 0;
+		wchar_t wPdbName[MAX_PATH] = { 0 };
+		wchar_t wPdbGuid[MAX_PATH] = { 0 };
+		wchar_t* wRetPdbName = ansiToUni(wPdbName, MAX_PATH, info.second.c_str());
+		wchar_t* wRetPdbGuid = ansiToUni(wPdbGuid, MAX_PATH, info.first.c_str());
+		kstd::wstring sw_LyPdb_Path = kstd::wstring(L"\\??\\C:\\LyPdb\\");
+		UNICODE_STRING u_LyPdb_Path = { 0 };
+		kstd::wstring sw_LyPdb_Pdb_Path = sw_LyPdb_Path + wPdbName + kstd::wstring(L"\\");
+		UNICODE_STRING u_LyPdb_Pdb_Path = { 0 };
+		kstd::wstring sw_LyPdb_Pdb_Guid_Path = sw_LyPdb_Pdb_Path + wRetPdbGuid + kstd::wstring(L"\\");
+		UNICODE_STRING u_LyPdb_Pdb_Guid_Path = { 0 };
+		kstd::wstring sw_pdbFilePath = sw_LyPdb_Pdb_Guid_Path + wRetPdbName;
+		kstd::string sa_pdbFilePath = kstd::string("\\??\\C:\\LyPdb\\") + info.second + kstd::string("\\") + info.first + kstd::string("\\") + info.second;
+
+		// 1. 创建 C:\\LyPdb\\ 目录
+
+		RtlInitUnicodeString(&u_LyPdb_Path, sw_LyPdb_Path.c_str());
+		if (!NT_SUCCESS(CreateDirectory(u_LyPdb_Path)))
+		{
+			DbgPrintEx(0, 0, "[LyPdb][%s] create dir C:\\LyPdb\\ error:%x \n", __FUNCTION__, status);
+			return;
+		}
+
+		// 2. 创建 C:\\LyPdb\\*.pdb\\ 目录
+
+		RtlInitUnicodeString(&u_LyPdb_Pdb_Path, sw_LyPdb_Pdb_Path.c_str());
+		if (!NT_SUCCESS(CreateDirectory(u_LyPdb_Pdb_Path)))
+		{
+			DbgPrintEx(0, 0, "[LyPdb][%s] create dir C:\\LyPdb\\Pdb\\ error:%x \n", __FUNCTION__, status);
+			return;
+		}
+
+		// 3. 创建 C:\\LyPdb\\pdb\\guid\\ 目录
+
+		RtlInitUnicodeString(&u_LyPdb_Pdb_Guid_Path, sw_LyPdb_Pdb_Guid_Path.c_str());
+		if (!NT_SUCCESS(CreateDirectory(u_LyPdb_Pdb_Guid_Path)))
+		{
+			DbgPrintEx(0, 0, "[LyPdb][%s] create dir C:\\LyPdb\\Pdb\\Guid\\ error:%x \n", __FUNCTION__, status);
+			return;
+		}
+
+		// 4. 已存在则不下载
+
+		auto fileExits = isFileExits(sa_pdbFilePath);
+		if (fileExits)
+		{
+			RtlCopyMemory(path, sw_pdbFilePath.c_str(), 0x100);
+			return;
+		}
+
+		// 5. 获取 pdb url
+
+		kstd::string url = downUrl + info.second + "/" + info.first + "/" + info.second;
+		DbgPrintEx(0, 0, "[LyPdb][%s] download url:%s \n", __FUNCTION__, url.c_str());
+
+		// 6. 发送请求 1
+
+		ksocket::init();
+		auto pdbSize = ksocket::getContentLength(url.c_str(), "88");
+		if (pdbSize == 0)
+		{
+			DbgPrintEx(0, 0, "[LyPdb][%s] failed to get content length \n", __FUNCTION__);
+			return;
+		}
+
+		// 7. 发送请求 2
+
+		auto pdbBuf = kstd::make_unique<unsigned char[]>(pdbSize + 500);
+		auto bSuc = ksocket::getHttpContent(url.c_str(), (char*)pdbBuf.get(), pdbSize + 500, "88");
+		if (!bSuc)
+		{
+			DbgPrintEx(0, 0, "[LyPdb][%s] failed to get pdb file \n", __FUNCTION__);
+			return;
+		}
+		ksocket::destory();
+
+		// 8. 写入文件
+
+		if (wRetPdbName != wPdbName)
+		{
+			DbgPrintEx(0, 0, "[LyPdb][%s] failed to convert ansi to uni \n", __FUNCTION__);
+			return;
+		}
+		helper::writeToDisk(sw_LyPdb_Pdb_Guid_Path.c_str(), wRetPdbName, (char*)pdbBuf.get(), pdbSize);
+
+		RtlCopyMemory(path, sw_pdbFilePath.c_str(), 0x100);
+		return;
+	}
+
 
 	bool PdbViewer::isFileExits(kstd::string path)
 	{

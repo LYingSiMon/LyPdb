@@ -245,10 +245,15 @@ namespace ksocket
 			return 0;
 		}
 		sockfd = socket_connection(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+		DbgPrintEx(0, 0, "[LyPdb][%s] socket_connection:%d \n", __FUNCTION__, sockfd);
 		result = connect(sockfd, res->ai_addr, (int)res->ai_addrlen);
+		DbgPrintEx(0, 0, "[LyPdb][%s] connect:%d \n", __FUNCTION__, result);
 		result = send(sockfd, request, strlen(request) + 1, 0);
+		DbgPrintEx(0, 0, "[LyPdb][%s] send:%d \n", __FUNCTION__, result);
 		result = recv(sockfd, recv_buffer, sizeof(recv_buffer), 0);
+		DbgPrintEx(0, 0, "[LyPdb][%s] recv:%d \n", __FUNCTION__, result);
 		recv_buffer[sizeof(recv_buffer) - 1] = '\0';
+		DbgPrintEx(0, 0, "[LyPdb][%s] recv_buffer:%s \n", __FUNCTION__, recv_buffer);
 
 		char* findStr=strstr(recv_buffer, "Content-Length:");
 		if (findStr == nullptr)
@@ -316,8 +321,11 @@ namespace ksocket
 			return false;
 		}
 		sockfd = socket_connection(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+		DbgPrintEx(0, 0, "[LyPdb][%s] socket_connection:%d \n", __FUNCTION__, sockfd);
 		result = connect(sockfd, res->ai_addr, (int)res->ai_addrlen);
+		DbgPrintEx(0, 0, "[LyPdb][%s] connect:%d \n", __FUNCTION__, result);
 		result = send(sockfd, request, strlen(request)+1, 0);
+		DbgPrintEx(0, 0, "[LyPdb][%s] send:%d \n", __FUNCTION__, result);
 
 		size_t total_received = 0;
 		size_t left_to_receive = httpContentSize + PAGE_SIZE;
